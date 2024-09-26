@@ -191,6 +191,7 @@ extract_debs() {
 
 # Add termux bootstrap second stage files
 add_termux_bootstrap_second_stage_files() {
+	cd "$TERMUX_PACKAGES_DIRECTORY"
 
 	local package_arch="$1"
 
