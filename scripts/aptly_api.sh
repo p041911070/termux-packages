@@ -60,7 +60,7 @@ aptly_delete_dir() {
   fi
 }
 
-aptly_upload_file() {
+aptly_upload_file_old() {
   ! check_login && return 0
   local filename="$1"
   curl_response=$(curl \
@@ -88,7 +88,20 @@ aptly_upload_file() {
   fi
   return 0
 }
-
+# 上传deb文件
+aptly_upload_file() {
+  local filename="$1"
+  curl_response=$(curl \
+    -X POST \
+    "http://nuget.zonejoin.cn/service/rest/v1/components?repository=apt-${REPOSITORY_NAME}" \
+    -H "accept: application/json"	\
+    -H "Content-Type: multipart/form-data"	\
+    -F "r.asset=@${filename}"	\
+   	-u ${AptAdmin}:${AptPwd}
+  )
+  echo "curl_response:$curl_response"
+  return 0
+}
 aptly_add_to_repo() {
   ! check_login && return 0
   echo "[$(date +%H:%M:%S)] Adding packages to repository '$REPOSITORY_NAME'..."
