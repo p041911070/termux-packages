@@ -283,6 +283,8 @@ jobs:
         GITHUB_SHA=${{ github.sha }}
         APTLY_API_AUTH=${{ secrets.APTLY_API_AUTH }}
         GPG_PASSPHRASE=${{ secrets.GPG_PASSPHRASE }}
+        AptAdmin=${{ secrets.AptAdmin }}
+        AptPwd=${{ secrets.AptPwd }}
 
         source scripts/aptly_api.sh
 
@@ -310,17 +312,8 @@ jobs:
 
             # Publishing repository changes.
             if [ "$uploaded_files" = "true" ]; then
-              if ! aptly_add_to_repo; then
-                exit 1
-              fi
-
-              # Usually temporary directory is deleted automatically, but in certain cases it is left.
-              aptly_delete_dir
-
-              # Final part to make changes appear in web root.
-              if ! aptly_publish_repo; then
-                exit 1
-              fi
+              #上传同，配置了可替换文件，就需要一个上传就可以了
+                echo "Publishing repository changes."
             fi
           fi
         done
