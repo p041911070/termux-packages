@@ -81,7 +81,8 @@ build_package() {
 		# Dependency packages may not have a build.sh, so we ignore the error.
 		# A better way should be implemented to validate if its actually a dependency
 		# and not a required package itself, by removing dependencies from PACKAGES array.
-		if [[ $IGNORE_BUILD_SCRIPT_NOT_FOUND_ERROR == "1" ]] && [[ "$build_output" == *"No build.sh script at package dir"* ]]; then
+		#if [[ $IGNORE_BUILD_SCRIPT_NOT_FOUND_ERROR == "1" ]] && [[ "$build_output" == *"No build.sh script at package dir"* ]]; then
+		if [[ $IGNORE_BUILD_SCRIPT_NOT_FOUND_ERROR == "1" ]] && [[ "$build_output" == *"No build.sh script at package dir"*  ||  "$build_output" == *"Are you trying to set up a custom repository"*  ]]; then
 			echo "Ignoring error 'No build.sh script at package dir'" 1>&2
 			return 0
 		fi
@@ -191,7 +192,7 @@ extract_debs() {
 
 # Add termux bootstrap second stage files
 add_termux_bootstrap_second_stage_files() {
-
+	cd "$TERMUX_PACKAGES_DIRECTORY"
 	local package_arch="$1"
 
 	echo $'\n\n\n'"[*] Adding termux bootstrap second stage files..."
@@ -206,6 +207,7 @@ add_termux_bootstrap_second_stage_files() {
 	chmod 700 "${BOOTSTRAP_ROOTFS}/${TERMUX_BOOTSTRAP_CONFIG_DIR_PATH}/termux-bootstrap-second-stage.sh"
 
 	# TODO: Remove it when Termux app supports `pacman` bootstraps installation.
+	mkdir -p "${BOOTSTRAP_ROOTFS}/${TERMUX_PROFILE_D_PREFIX_DIR_PATH}"
 	sed -e "s|@TERMUX_PROFILE_D_PREFIX_DIR_PATH@|${TERMUX_PROFILE_D_PREFIX_DIR_PATH}|g" \
 		-e "s|@TERMUX_BOOTSTRAP_CONFIG_DIR_PATH@|${TERMUX_BOOTSTRAP_CONFIG_DIR_PATH}|g" \
 		"$(dirname "$(realpath "$0")")/bootstrap/01-termux-bootstrap-second-stage-fallback.sh" \

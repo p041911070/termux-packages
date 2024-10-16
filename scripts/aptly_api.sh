@@ -93,7 +93,7 @@ aptly_upload_file() {
   local filename="$1"
   curl_response=$(curl \
     -X POST \
-    "http://nuget.zonejoin.cn/service/rest/v1/components?repository=apt-${REPOSITORY_NAME}" \
+    "https://nuget.zonejoin.cn/service/rest/v1/components?repository=apt-${REPOSITORY_NAME}" \
     -H "accept: application/json"	\
     -H "Content-Type: multipart/form-data"	\
     -F "r.asset=@${filename}"	\
