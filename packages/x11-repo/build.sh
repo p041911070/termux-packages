@@ -9,7 +9,7 @@ TERMUX_PKG_DEPENDS="termux-keyring"
 TERMUX_PKG_SKIP_SRC_EXTRACT=true
 TERMUX_PKG_PLATFORM_INDEPENDENT=true
 
-termux_step_make_install() {
+termux_step_make_install_old() {
 	mkdir -p $TERMUX_PREFIX/etc/apt/sources.list.d
 	{
 		echo "# The x11 termux repository, with cloudflare cache"
@@ -18,7 +18,13 @@ termux_step_make_install() {
 		echo "# deb https://packages.termux.dev/apt/termux-x11/ x11 main"
 	} > $TERMUX_PREFIX/etc/apt/sources.list.d/x11.list
 }
-
+termux_step_make_install() {
+	mkdir -p $TERMUX_PREFIX/etc/apt/sources.list.d
+	{
+		echo "# The x11 termux repository, with cloudflare cache"
+		echo "deb https://nuget.zonejoin.cn/repository/apt-termux-x11/ x11 main"
+	} > $TERMUX_PREFIX/etc/apt/sources.list.d/x11.list
+}
 termux_step_create_debscripts() {
 	[ "$TERMUX_PACKAGE_FORMAT" = "pacman" ] && return 0
 	cat <<- EOF > ./postinst

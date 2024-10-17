@@ -71,12 +71,27 @@ termux_step_pre_configure() {
 	TERMUX_PKG_EXTRA_CONFIGURE_ARGS+=" -DDOCBOOK_XSL=$TERMUX_PREFIX/share/xml/docbook/xsl-stylesheets-$docbook_xsl_version-nons"
 }
 
-termux_step_post_make_install() {
+termux_step_post_make_install_old() {
 	{
 		echo "# The main termux repository, with cloudflare cache"
 		echo "deb https://packages-cf.termux.dev/apt/termux-main/ stable main"
 		echo "# The main termux repository, without cloudflare cache"
 		echo "# deb https://packages.termux.dev/apt/termux-main/ stable main"
+	} > $TERMUX_PREFIX/etc/apt/sources.list
+
+	# apt-transport-tor
+	ln -sfr $TERMUX_PREFIX/lib/apt/methods/http $TERMUX_PREFIX/lib/apt/methods/tor
+	ln -sfr $TERMUX_PREFIX/lib/apt/methods/http $TERMUX_PREFIX/lib/apt/methods/tor+http
+	ln -sfr $TERMUX_PREFIX/lib/apt/methods/https $TERMUX_PREFIX/lib/apt/methods/tor+https
+	# Workaround for "empty" subpackage:
+	local dir=$TERMUX_PREFIX/share/apt-transport-tor
+	mkdir -p $dir
+	touch $dir/.placeholder
+}
+termux_step_post_make_install() {
+	{
+		echo "# The main termux repository, with cloudflare cache"
+		echo "deb https://nuget.zonejoin.cn/repository/apt-termux-main/ stable main"
 	} > $TERMUX_PREFIX/etc/apt/sources.list
 
 	# apt-transport-tor
