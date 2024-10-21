@@ -42,3 +42,4 @@ checksum*
 /*.git
 /.vs
 /.idea
+/output-files/x86_64

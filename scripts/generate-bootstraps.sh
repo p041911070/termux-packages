@@ -23,7 +23,8 @@ TERMUX_PACKAGE_MANAGERS=("apt" "pacman")
 
 # The repository base urls mapping for package managers.
 declare -A REPO_BASE_URLS=(
-	["apt"]="https://packages-cf.termux.dev/apt/termux-main"
+	#["apt"]="https://packages-cf.termux.dev/apt/termux-main"
+	["apt"]="https://nuget.zonejoin.cn/repository/apt-termux-main"
 	["pacman"]="https://service.termux-pacman.dev/main"
 )
 
@@ -121,7 +122,7 @@ pull_package() {
 		local package_url
 		package_url="$REPO_BASE_URL/$(echo "${PACKAGE_METADATA[${package_name}]}" | grep -i "^Filename:" | awk '{ print $2 }')"
 		if [ "${package_url}" = "$REPO_BASE_URL" ] || [ "${package_url}" = "${REPO_BASE_URL}/" ]; then
-			echo "[!] Failed to determine URL for package '$package_name'."
+			echo "[!] Failed to determine URL for package '$package_name'.=》$package_url"
 			exit 1
 		fi
 

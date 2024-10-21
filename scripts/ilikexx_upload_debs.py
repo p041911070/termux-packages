@@ -40,9 +40,9 @@ def aptly_upload_file(filename, repository_name, apt_admin, apt_pwd):
 # 使用示例
 repository_name = "termux-main"
 apt_admin = "admin"
-apt_pwd = "Pym..."
+apt_pwd = "Pym*"
 # 设置要上传的 .deb 包的目录
-package_dir = r'C:\Pym\Develop\GitHubProject\termux-packages\output-files\x86_64\packages'
+package_dir = r'C:\Pym\Develop\GitHubProject\termux-packages\output-files\x86_64'
 # 遍历目录中的所有 .deb 文件
 for filename in os.listdir(package_dir):
     if filename.endswith(".deb"):
