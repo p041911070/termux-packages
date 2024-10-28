@@ -117,7 +117,9 @@ PACKAGES+=" lua5.2"
 PACKAGES+=" lua5.1"
 
 # Used bt host build of package mariadb.
-PACKAGES+=" libncurses5-dev"
+#PACKAGES+=" libncurses5-dev"
+# 在ubuntu24中，libncurses5-dev 软件包已经被替换为 libncurses-dev
+PACKAGES+=" libncurses-dev"
 
 # Needed to build neovim >= 8.0.0
 PACKAGES+=" lua-lpeg"

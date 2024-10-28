@@ -43,3 +43,4 @@ checksum*
 /.vs
 /.idea
 /output-files/x86_64
+/output-files
